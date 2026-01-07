@@ -41,7 +41,7 @@ jobs:
 
     - name: Deploy to Ceph QA
       run: |
-        hugo --config="config-stage.toml" -b "https://docs.fileformat.com/" deploy --target staging-ceph --maxDeletes=-1 --verbose
+        hugo --config="config-stage.toml" deploy --target staging-ceph --maxDeletes -1 --verbose
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.CEPH_ACCESS_KEY }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.CEPH_SECRET_KEY }}
