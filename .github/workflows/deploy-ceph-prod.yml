@@ -1,16 +1,16 @@
-name: PushToCephQA
+name: PushToCephProduction
 
 # Controls when the action will run.
 on:
   # Triggers the workflow on push events to main branch
   push:
-    branches: [ main1 ]
+    branches: [ main ]
     paths:
       - 'content/**'
       - 'config/**'
       - 'layouts/**'
       - 'assets/**'
-      - '.github/workflows/deploy-ceph-qa.yml'
+      - '.github/workflows/deploy-ceph-prod.yml'
   
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -37,14 +37,14 @@ jobs:
           hugo-version: '0.110.0'
 
     - name: Build Site
-      run: hugo --config="config-stage.toml" -b "https://docs.fileformat.com/" --minify --cleanDestinationDir 
+      run: hugo --config="config-prod.toml" -b "https://docs.fileformat.com/" --minify --cleanDestinationDir 
 
-    - name: Deploy to Ceph QA
+    - name: Deploy to Ceph Production
       run: |
-        hugo --config="config-stage.toml" deploy --target staging-ceph --maxDeletes -1 --verbose
+        hugo --config="config-prod.toml" deploy --target production-ceph --maxDeletes -1 --verbose
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.CEPH_ACCESS_KEY_QA }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.CEPH_SECRET_KEY_QA }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.CEPH_ACCESS_KEY }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.CEPH_SECRET_KEY }}
 
     # - name: Generate Build Info
     #   run: |
